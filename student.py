@@ -1,6 +1,6 @@
 import mysql.connector
 import json
-mydb = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "student")
+mydb = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "student")
 cursorObject = mydb.cursor()
 
 def createStudent(student_id, name):
@@ -40,7 +40,7 @@ def reportCard(student_idx):
             break
     if(check == 1):
         studentx = students[i]
-        mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "course")
+        mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "course")
         cursorObject1 = mydb1.cursor()
         cursorObject1.execute("SELECT * FROM course")
         result = cursorObject1.fetchall()
