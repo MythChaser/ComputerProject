@@ -1,11 +1,11 @@
 import mysql.connector
 import json
 from matplotlib import pyplot
-mydb = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "department")
+mydb = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "department")
 cursorObject = mydb.cursor()
 
 def createDepartment(department_id, department_name):
-    mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "batch")
+    mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "batch")
     cursorObject1 = mydb1.cursor()
     cursorObject1.execute("SELECT * FROM batch")
     result1 = cursorObject1.fetchall()
@@ -63,7 +63,7 @@ def viewPerformanceD(department_id):
                 batch_id = batch_id_L[j]
                 total_percentage = 0
                 divs1 = 0
-                mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "batch")
+                mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "batch")
                 cursorObject1 = mydb1.cursor()
                 cursorObject1.execute("SELECT * FROM batch")
                 result1 = cursorObject1.fetchall()
@@ -75,7 +75,7 @@ def viewPerformanceD(department_id):
                 for k in range(0, len(batch_ids)):
                     if(batch_ids[k] == batch_id):
                         student_id = list(student_ids[k].split(":"))
-                        mydb2 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "student")
+                        mydb2 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "student")
                         cursorObject2 = mydb2.cursor()
                         cursorObject2.execute("SELECT * FROM student")
                         result2 = cursorObject2.fetchall()
@@ -85,7 +85,7 @@ def viewPerformanceD(department_id):
                         for l in range(0, len(student_id)):
                             for m in range(0, len(student_ids1)):
                                 if(student_id[l] == student_ids1[m]):
-                                    mydb3 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "course")
+                                    mydb3 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "course")
                                     cursorObject3 = mydb3.cursor()
                                     cursorObject3.execute("SELECT * FROM course")
                                     result3 = cursorObject3.fetchall()
@@ -133,7 +133,7 @@ def linePlot(department_id):
                 batch_id = batch_id_L[j]
                 total_percentage = 0
                 divs1 = 0
-                mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "batch")
+                mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "batch")
                 cursorObject1 = mydb1.cursor()
                 cursorObject1.execute("SELECT * FROM batch")
                 result1 = cursorObject1.fetchall()
@@ -145,7 +145,7 @@ def linePlot(department_id):
                 for k in range(0, len(batch_ids)):
                     if(batch_ids[k] == batch_id):
                         student_id = list(student_ids[k].split(":"))
-                        mydb2 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "student")
+                        mydb2 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "student")
                         cursorObject2 = mydb2.cursor()
                         cursorObject2.execute("SELECT * FROM student")
                         result2 = cursorObject2.fetchall()
@@ -155,7 +155,7 @@ def linePlot(department_id):
                         for l in range(0, len(student_id)):
                             for m in range(0, len(student_ids1)):
                                 if(student_id[l] == student_ids1[m]):
-                                    mydb3 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "course")
+                                    mydb3 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "course")
                                     cursorObject3 = mydb3.cursor()
                                     cursorObject3.execute("SELECT * FROM course")
                                     result3 = cursorObject3.fetchall()
