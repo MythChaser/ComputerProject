@@ -2,7 +2,7 @@ import mysql.connector
 from matplotlib import pyplot
 
 def enterMarks(course_id):
-    mydb = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "course")
+    mydb = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "course")
     cursorObject = mydb.cursor()
     cursorObject.execute("SELECT * FROM course")
     myresult = cursorObject.fetchall()
@@ -17,7 +17,7 @@ def enterMarks(course_id):
         return marks
     else:
         print("Course name: " + course_name)
-        mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "batch")
+        mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "batch")
         cursorObject1 = mydb1.cursor()
         cursorObject1.execute("SELECT * FROM batch")
         myresult1 = cursorObject1.fetchall()
@@ -41,14 +41,14 @@ def viewPerformanceE(course_id):
             print(key + ": ", value)
 
 def scatterPlot():
-    mydb = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "course")
+    mydb = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "course")
     cursorObject = mydb.cursor()
     cursorObject.execute("SELECT * FROM course")
     myresult = cursorObject.fetchall()
     courses = []
     for i in range(0, len(myresult)):
         courses.append(myresult[i][0])
-    mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "batch")
+    mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "batch")
     cursorObject1 = mydb1.cursor()
     cursorObject1.execute("SELECT * FROM batch")
     myresult1 = cursorObject1.fetchall()
