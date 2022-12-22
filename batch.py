@@ -1,7 +1,7 @@
 import mysql.connector
 import json
 from matplotlib import pyplot
-mydb = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "batch")
+mydb = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "batch")
 cursorObject = mydb.cursor()
 
 def createBatch(batch_name):
@@ -17,7 +17,7 @@ def createBatch(batch_name):
             courses_L.append(course)
     temp = ":"
     courses = (temp.join(courses_L))
-    mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "student")
+    mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "student")
     cursorObject1 = mydb1.cursor()
     cursorObject1.execute("SELECT * FROM student")
     result1 = cursorObject1.fetchall()
@@ -87,7 +87,7 @@ def viewPerformance(batch_id):
         if(batch_ids[i] == batch_id):
             check = 1
             student_id = list(student_ids[i].split(":"))
-            mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "student")
+            mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "student")
             cursorObject1 = mydb1.cursor()
             cursorObject1.execute("SELECT * FROM student")
             result1 = cursorObject1.fetchall()
@@ -105,7 +105,7 @@ def viewPerformance(batch_id):
                         print("Student ID: " + student_datas[0][k])
                         print("Student Name: " + student_datas[1][k])
                         print("Student Roll Number: " + str(student_datas[2][k]))
-                        mydb2 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "course")
+                        mydb2 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "course")
                         cursorObject2 = mydb2.cursor()
                         cursorObject2.execute("SELECT * FROM course")
                         result2 = cursorObject2.fetchall()
@@ -142,7 +142,7 @@ def pieChart(batch_id):
         if(batch_ids[i] == batch_id):
             check = 1
             student_id = list(student_ids[i].split(":"))
-            mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "student")
+            mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "student")
             cursorObject1 = mydb1.cursor()
             cursorObject1.execute("SELECT * FROM student")
             result1 = cursorObject1.fetchall()
@@ -152,7 +152,7 @@ def pieChart(batch_id):
             for j in range(0, len(student_id)):
                 for k in range(0, len(student_ids1)):
                     if(student_id[j] == student_ids1[k]):
-                        mydb2 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "course")
+                        mydb2 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "course")
                         cursorObject2 = mydb2.cursor()
                         cursorObject2.execute("SELECT * FROM course")
                         result2 = cursorObject2.fetchall()
