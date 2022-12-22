@@ -4,7 +4,7 @@ import pandas
 import matplotlib.pyplot
 from collections import Counter
 from student import gradeCheck
-mydb = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "course")
+mydb = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "course")
 cursorObject = mydb.cursor()
 
 def createCourse(course_id, course_name):
@@ -33,7 +33,7 @@ def checkPerformance(course_id):
             check = 1
             student_marks_d = json.loads(myresult[i][2])
             student_marks = [(k, v) for k, v in student_marks_d.items()]
-            mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "student")
+            mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "student")
             cursorObject1 = mydb1.cursor()
             cursorObject1.execute("SELECT * FROM student")
             result = cursorObject1.fetchall()
@@ -59,7 +59,7 @@ def checkPerformance(course_id):
     return data
 
 def courseStatistics(course_id):
-    mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "The39clues$", database = "student")
+    mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "student")
     cursorObject1 = mydb1.cursor()
     cursorObject1.execute("SELECT * FROM student")
     result = cursorObject1.fetchall()
