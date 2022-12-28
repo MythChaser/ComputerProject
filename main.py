@@ -16,7 +16,7 @@ while(True):
             print("Press 3 to remove a student")
             print("Press 4 to generate report card of a student")
             print("Press 0 to return to main menu")
-            y = int(input("Enter yout choice: "))
+            y = int(input("Enter your choice: "))
             if(y == 0):
                 break
             elif(y == 1):
@@ -25,9 +25,7 @@ while(True):
                 createStudent(student_id, student_name)
             elif(y == 2):
                 ostudent_id = input("Enter old student ID: ")
-                nstudent_id = input("Enter new student ID: ")
-                name = input("Enter name: ")
-                updateStudent(ostudent_id, nstudent_id, name)
+                updateStudent(ostudent_id)
             elif(y == 3):
                 student_id = input("Enter student ID: ")
                 removeStudent(student_id)
@@ -43,7 +41,7 @@ while(True):
             print("Press 2 to view performance of students on course")
             print("Press 3 to show course statistics as histogram")
             print("Press 0 to return to main menu")
-            y = int(input("Enter yout choice: "))
+            y = int(input("Enter your choice: "))
             if(y == 0):
                 break
             elif(y == 1):
@@ -67,7 +65,7 @@ while(True):
             print("Press 4 to view performance of all students in a batch")
             print("Press 5 to view pie chart of percentage all students in a batch")
             print("Press 0 to return to main menu")
-            y = int(input("Enter yout choice: "))
+            y = int(input("Enter your choice: "))
             if(y == 0):
                 break
             elif(y == 1):
@@ -95,7 +93,7 @@ while(True):
             print("Press 3 to view average performance of all betches in a department")
             print("Press 4 to view line plot of department statistics")
             print("Press 0 to return to main menu")
-            y = int(input("Enter yout choice: "))
+            y = int(input("Enter your choice: "))
             if(y == 0):
                 break
             elif(y == 1):
@@ -120,7 +118,7 @@ while(True):
             print("Press 2 to view performance of all students in an exam")
             print("Press 3 to show examination statistics as a scatter plot")
             print("Press 0 to return to main menu")
-            y = int(input("Enter yout choice: "))
+            y = int(input("Enter your choice: "))
             if(y == 0):
                 break
             elif(y == 1):
