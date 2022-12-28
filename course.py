@@ -1,93 +1,115 @@
-import mysql.connector
 import json
+import csv
 import pandas
 import matplotlib.pyplot
 from collections import Counter
 from student import gradeCheck
-mydb = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "course")
-cursorObject = mydb.cursor()
+from batch import createBatch
 
 def createCourse(course_id, course_name):
-    print("Enter students in course: ")
-    marks_obtained_D = {}
+    csv_reader = []
+    with open("course.csv", "r", newline = "\n") as f:
+        csv_reader = list(csv.reader(f, delimiter=","))
+    for i in range(0, len(csv_reader)):
+        if(csv_reader[i][0] == course_id):
+            print("Course ID already exists")
+            return
+    print("Enter batches in which course is included: ")
+    students = []
     while(True):
-        student_id = input("Enter student ID (to stop enter STOP): ")
-        if(student_id.upper() == "STOP"):
+        batch_id = input("Enter batch ID (to stop enter STOP): ")
+        if(batch_id.upper() == "STOP"):
             break
         else:
-            marks = int(input("Enter marks obtained in course: "))
-            marks_obtained_D[student_id] = marks
-    marks_obtained = json.dumps(marks_obtained_D)
-    sql = "INSERT INTO course (course_id, course_name, marks_obtained) VALUES (%s, %s, %s)"
-    val = (course_id, course_name, marks_obtained)
-    cursorObject.execute(sql, val)
-    mydb.commit()
+            check = 0
+            for i in range(0, len(csv_reader)):
+                with open("batch.csv", "r", newline = "\n") as f:
+                    csv_reader = list(csv.reader(f, delimiter=","))
+                if(csv_reader[i][3] != ""):
+                    temp = csv_reader[i][3].split(":")
+                    for x in temp:
+                        if(x == course_id):
+                            print("Course already added")
+                            continue
+                if(csv_reader[i][0] == batch_id):
+                    check = 1
+                    if(csv_reader[i][3] == ""):
+                        csv_reader[i][3] = csv_reader[i][3] + course_id
+                    else:
+                        csv_reader[i][3] = csv_reader[i][3] + ":" + course_id
+                    df = pandas.read_csv("batch.csv")
+                    df.loc[i-1, "list_of_courses"] = csv_reader[i][3]
+                    df.to_csv("batch.csv", index = False)
+            if(check == 0):
+                print("Batch does not exist.... Creating new batch")
+                batch_name = batch_id[:3] + " 20" + batch_id[3:] + "-" + str(int(batch_id[3:]) + 4)
+                createBatch(batch_name)
+                with open("batch.csv", "r", newline = "\n") as f:
+                    csv_reader = list(csv.reader(f, delimiter=","))
+                csv_reader[len(csv_reader) - 1][3] = csv_reader[len(csv_reader) - 1][3] + course_id
+                df = pandas.read_csv("batch.csv")
+                df.loc[len(csv_reader) - 2, "list_of_courses"] = csv_reader[len(csv_reader) - 1][3]
+                df.to_csv("batch.csv", index = False)
+            with open("batch.csv", "r", newline = "\n") as f:
+                csv_reader = list(csv.reader(f, delimiter=","))
+            for i in range(0, len(csv_reader)):
+                if(csv_reader[i][0] == batch_id):
+                    students += csv_reader[i][4].split(":")
+    temp = {}
+    for a in students:
+        temp[a] = 0
+    data = [course_id, course_name, json.dumps(temp)]
+    with open("course.csv", "a", newline = "\n") as f:
+        csv_writer = csv.writer(f)
+        csv_writer.writerow(data)
 
 def checkPerformance(course_id):
-    cursorObject.execute("SELECT * FROM course")
-    myresult = cursorObject.fetchall()
-    check = 0
+    csv_reader = []
     data = []
-    for i in range(0, len(myresult)):
-        if(myresult[i][0] == course_id):
+    with open("course.csv", "r", newline = "\n") as f:
+        csv_reader = list(csv.reader(f, delimiter=","))
+    check = 0
+    student_marks = {}
+    for i in range(1, len(csv_reader)):
+        if(csv_reader[i][0] == course_id):
             check = 1
-            student_marks_d = json.loads(myresult[i][2])
-            student_marks = [(k, v) for k, v in student_marks_d.items()]
-            mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "student")
-            cursorObject1 = mydb1.cursor()
-            cursorObject1.execute("SELECT * FROM student")
-            result = cursorObject1.fetchall()
-            student_ids = []
-            students = []
-            student_rolls = []
-            for j in range(0, len(result)):
-                student_ids.append(result[j][0])
-                students.append(result[j][1])
-                student_rolls.append(result[j][2])
-            student_datas = [student_ids, students, student_rolls]
-            for j in range(0, len(student_marks)):
-                for k in range(0, len(student_datas[0])):
-                    if(student_marks[j][0] == student_datas[0][k]):
-                        print("Student ID: " + student_datas[0][k])
-                        print("Student Name: " + student_datas[1][k])
-                        print("Student Roll Number: " + str(student_datas[2][k]))
-                        print("Marks obtained: " + str(student_marks[j][1]))
-                        print()
-                        data.append([student_datas[0][k],student_datas[1][k],student_datas[1][k],student_datas[2][k],student_marks[j][1]])
+            student_marks = json.loads(csv_reader[i][2])
+            break
     if(check == 0):
-        print("Course does not exist")
+        print("Course ID does not exist")
+        return data
+    student_ids = list(student_marks.keys())
+    with open("student.csv", "r", newline = "\n") as f:
+        csv_reader = list(csv.reader(f, delimiter=","))
+    for i in range(0, len(student_ids)):
+        for j in range(0, len(csv_reader)):
+            if(student_ids[i] == csv_reader[j][0]):
+                print("Student ID: " + student_ids[i])
+                print("Student Name: " + csv_reader[j][1])
+                print("Student Roll Number: " + csv_reader[j][2])
+                print("Marks obtained: " + str(student_marks.get(student_ids[i])))
+                print()
+                data.append([student_ids[i], csv_reader[j][1], csv_reader[j][2], student_marks.get(student_ids[i])])
     return data
 
 def courseStatistics(course_id):
-    mydb1 = mysql.connector.connect(host = "localhost", user = "root", password = "*******", database = "student")
-    cursorObject1 = mydb1.cursor()
-    cursorObject1.execute("SELECT * FROM student")
-    result = cursorObject1.fetchall()
-    student_ids = []
-    for i in range(0, len(result)):
-        student_ids.append(result[i][0])
-    cursorObject.execute("SELECT * FROM course")
-    result = cursorObject.fetchall()
-    marks = []
-    course_ids = []
-    for i in range(0, len(result)):
-        marks.append(json.loads(result[i][2]))
-        course_ids.append(result[i][0])
+    csv_reader = []
+    with open("course.csv", "r", newline = "\n") as f:
+        csv_reader = list(csv.reader(f, delimiter=","))
+    check = 0
+    for i in range(0, len(csv_reader)):
+        if(csv_reader[i][0] == course_id):
+            check = 1
+            break
+    if(check == 0):
+        print("Course ID does not exist")
+        return
+    x = checkPerformance(course_id)
     grades = []
-    for i in range(0, len(student_ids)):
-        x = None
-        for j in range(0, len(course_ids)):
-            temp = marks[j]
-            if(isinstance(temp.get(student_ids[i]), int)):
-                if(course_ids[j] == course_id):
-                    x = temp.get(student_ids[i])
-        if(isinstance(x, int)):
-            grades.append(gradeCheck(x))
-    if(len(grades) == 0):
-        print("Course does not exist")
-    else:
-        grades.sort()
-        letter_counts = Counter(grades)
-        df = pandas.DataFrame.from_dict(letter_counts, orient='index')
-        df.plot(kind='bar')
-        matplotlib.pyplot.show()
+    for a in x:
+        grades.append(gradeCheck(a[3]))
+    grades.sort()
+    letter_counts = Counter(grades)
+    df = pandas.DataFrame.from_dict(letter_counts, orient='index')
+    df.plot(kind='bar')
+    matplotlib.pyplot.show()
